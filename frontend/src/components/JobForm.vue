@@ -54,7 +54,7 @@ const blank = () => ({
   address: "",
   education: "",
   experience: "",
-  title: "",
+  title: "Senior Full Stack Developer",
   description: "",
   note: "",
 });
