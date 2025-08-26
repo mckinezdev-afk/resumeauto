@@ -23,8 +23,8 @@ const answer = async (req, res) => {
     ${email ? `email is ` + email : ""}, \n
     ${phone ? `phone is ` + phone : ""}, \n
     ${address ? `address is ` + address : ""}.\n
-    ${education ? `education is ` + education : ""}.\n
-    ${experience ? `experience is ` + experience : ""},\n
+    ${education ? `my education is ` + education : ""}.\n
+    ${experience ? `my work experience is ` + experience : ""},\n
     ${defaultnote ? `here is some more info about resume : ` + defaultnote : ""},\n
     Here is a note about resume : ${note}
     ${skills ? `my skills includes also ` + skills : ""},\n
