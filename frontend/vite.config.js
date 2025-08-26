@@ -10,7 +10,8 @@ export default defineConfig({
             // Proxy API calls during local dev to avoid CORS issues
             '/api': {
                 target: 'http://localhost:8080',
-                changeOrigin: true
+                changeOrigin: true,
+                secure: false
             }
         }
     }
