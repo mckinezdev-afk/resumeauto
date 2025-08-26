@@ -11,7 +11,7 @@
       </div>
       <div class="field">
         <label for="title">Job Title</label>
-        <input id="title" v-model.trim="form.title" type="text" placeholder="Frontend Engineer" :disabled="loading" />
+        <input id="title" v-model.trim="jobtitle" type="text"  placeholder="Frontend Engineer" :disabled="loading" />
         <small v-if="errors.title" class="err">{{ errors.title }}</small>
       </div>
 
@@ -69,6 +69,7 @@ const errors = reactive({
   note: "",
 });
 const usernames = ref([]);
+const jobtitle = ref("Senior Software Engineer");
 const selectedUser = ref(null);
 const loading = ref(false);
 const server = reactive({ success: false, message: "", error: "" });
@@ -92,7 +93,7 @@ onMounted(() => {
 
 
 function validate() {
-  errors.title = form.title ? "" : "Job title is required.";
+  errors.title = jobtitle.value ? "" : "Job title is required.";
   errors.description = form.description ? "" : "Job description is required.";
   errors.note = "";
   return (
@@ -101,7 +102,7 @@ function validate() {
 }
 
 function reset() {
-  form.title = "";
+  jobtitle.value = "Senior Software Engineer";
   form.description = "";
   server.success = false;
   server.message = "";
@@ -116,7 +117,7 @@ async function onSubmit() {
   try {
     const payload = {
       name: selectedUser.value,
-      job: { title: form.title, description: form.description },
+      job: { title: jobtitle.value, description: form.description },
       note: form.note,
     };
     const res = await postJSON("/api/autogen/answer", payload);

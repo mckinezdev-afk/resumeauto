@@ -15,7 +15,7 @@ const answer = async (req, res) => {
      } = req.user
     const { title, description } = job
 
-    const sentence1 = `
+    const sentence1 = `Forget anything you learned before. You are a professional resume writer.Act as a senior-level resume strategist and ATS optimization expert. Create a competitive, TS-optimized resume for a Senior Software Engineer role. Use realistic but fictional work history You
      render the resume in markdown format, use appropriate markdown syntax for headings, lists, and emphasis.\n
     I want to make a resume to apply for the job titled "${title}".\n
     The job description is as follows: ${description}\n
@@ -25,9 +25,9 @@ const answer = async (req, res) => {
     ${address ? `address is ` + address : ""}.\n
     ${education ? `education is ` + education : ""}.\n
     ${experience ? `experience is ` + experience : ""},\n
-    ${skills ? `my must skills are ` + skills : ""},\n
     ${defaultnote ? `here is some more info about resume : ` + defaultnote : ""},\n
     Here is a note about resume : ${note}
+    ${skills ? `my skills includes also ` + skills : ""},\n
    `;
     openai.responses.create({
         model: "gpt-5-nano",
