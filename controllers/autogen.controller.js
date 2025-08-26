@@ -10,7 +10,7 @@ const openai = new OpenAI({
 const answer = async (req, res) => {
 
     const { job, note } = req.body;
-    const { name, email, phone, address, education, experience, skill, defaultnote,
+    const { name, email, phone, address, education, experience, skills, defaultnote,
         h1color, h2color, h3color, h4color, textcolor, bgcolor,textfont, headingfont, fontsize, lineheight
      } = req.user
     const { title, description } = job
@@ -25,7 +25,7 @@ const answer = async (req, res) => {
     ${address ? `address is ` + address : ""}.\n
     ${education ? `education is ` + education : ""}.\n
     ${experience ? `experience is ` + experience : ""},\n
-    ${skill ? `my default skills are ` + skill : ""},\n
+    ${skills ? `my must skills are ` + skills : ""},\n
     ${defaultnote ? `here is some more info about resume : ` + defaultnote : ""},\n
     Here is a note about resume : ${note}
    `;
