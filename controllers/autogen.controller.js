@@ -29,7 +29,7 @@ const answer = async (req, res) => {
     ${defaultnote ? `here is some more info about resume : ` + defaultnote : ""},\n
     Here is a note about resume : ${note}
    `;
-    openai.responses.create({
+   openai.responses.create({
         model: "gpt-5-nano",
         input: sentence1
     }).then(async (response) => {
