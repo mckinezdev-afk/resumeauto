@@ -7,34 +7,33 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
-const selectRandomElement = (arr) => {
-    return arr[Math.floor(Math.random() * arr.length)];
-}
-
 const answer = async (req, res) => {
 
-    const { applicant, job, note } = req.body;
-    const { name, email, phone, address, education, experience } = applicant
+    const { job, note } = req.body;
+    const { name, email, phone, address, education, experience, skill, defaultnote,
+        h1color, h2color, h3color, h4color, textcolor, bgcolor,textfont, headingfont, fontsize, lineheight
+     } = req.user
     const { title, description } = job
-    const sentence1 = `
-     render the resume in markdown format, use appropriate markdown syntax for headings, lists, and emphasis.
-    I want to make a resume to apply for the job titled "${title}".
-    The job description is as follows: ${description}
-    Here is a note about resume : ${note}
-    ${name ? `name is ` + name : ""}, 
-    ${email ? `email is ` + email : ""}, 
-    ${phone ? `phone is ` + phone : ""}, 
-    ${address ? `address is ` + address : ""}.
-    ${education ? `education is ` + education : ""}.
-    ${experience ? `experience is ` + experience : ""}
-   `;
 
+    const sentence1 = `
+     render the resume in markdown format, use appropriate markdown syntax for headings, lists, and emphasis.\n
+    I want to make a resume to apply for the job titled "${title}".\n
+    The job description is as follows: ${description}\n
+    ${name ? `name is ` + name : ""}, \n
+    ${email ? `email is ` + email : ""}, \n
+    ${phone ? `phone is ` + phone : ""}, \n
+    ${address ? `address is ` + address : ""}.\n
+    ${education ? `education is ` + education : ""}.\n
+    ${experience ? `experience is ` + experience : ""},\n
+    ${skill ? `my default skills are ` + skill : ""},\n
+    ${defaultnote ? `here is some more info about resume : ` + defaultnote : ""},\n
+    Here is a note about resume : ${note}
+   `;
     openai.responses.create({
         model: "gpt-5-nano",
         input: sentence1
     }).then(async (response) => {
-        console.log(response.output_text);
-
+        console.log('response for ' + req.user.name + " is generated!!!!")
         const mdText = response.output_text;
         const md = new markdownIt();
         const htmlContent = md.render(mdText);
@@ -44,37 +43,44 @@ const answer = async (req, res) => {
             <head>
                 <style>
                     body { 
-                        font-family: ${selectRandomElement(['Arial, sans-serif', 'Georgia, serif', 'Helvetica, sans-serif', 'Times New Roman, serif', 'Verdana, sans-serif'])}; 
-                        padding: ${selectRandomElement(['25px', '30px', '20px', '15px'])}; 
-                        font-size: ${selectRandomElement(['11px', '12px', '13px', '15px'])}; 
-                        line-height: 1.6; 
+                        font-family: ${textfont ? textfont : 'Arial, sans-serif'}; 
+                        color: ${textcolor ? textcolor : '#000000'};
+                        padding: 25px; 
+                        background-color: ${bgcolor ? bgcolor : '#ffffff'};
+                        font-size: ${fontsize ? fontsize : '12px'}; 
+                        line-height: ${lineheight ? lineheight : '1.5'}; 
                         margin: 0; 
                     }
 
                     h1 {
-                        text-align: 'center'; 
-                        color: ${selectRandomElement(['#2e6c80ff', '#4a90e2ff', '#26584dff', '#9013feff', '#74511aff'])}; 
-                        margin-bottom: ${selectRandomElement(['25px', '30px', '20px', '15px'])};
-                        page-break-after: avoid;}
+                        text-align: center; 
+                        color: ${h1color ? h1color : '#1a1a1aff'}; 
+                        margin-bottom: 20px;
+                        page-break-after: avoid;
+                        font-family: ${headingfont ? headingfont : 'Helvetica, sans-serif'};
+                    }
 
                      h2 { 
-                        color: ${selectRandomElement(['#2e6c80ff', '#232f3dff', '#26584dff', '#2c1a3cff', '#372303ff'])}; 
+                        color: ${h2color ? h2color : '#2e2e2eff'}; 
                         page-break-after: avoid; 
                         text-align :center;
+                        font-family: ${headingfont ? headingfont : 'Helvetica, sans-serif'};
                     }
                     h3 { 
-                        color: ${selectRandomElement(['#186b87ff', '#3e628bff', '#13372fff', '#9013feff', '#75664dff'])}; 
+                        color: ${h3color ? h3color : '#4e4e4eff'}; 
                         page-break-after: avoid; 
                         text-align :center;
+                        font-family: ${headingfont ? headingfont : 'Helvetica, sans-serif'};
                     }
                     h4 { 
-                        color: ${selectRandomElement(['#081f26ff', '#828384ff', '#5f6161ff', '#474747ff', '#726e68ff'])}; 
+                        color: ${h4color ? h4color : '#4e4e4eff'}; 
                         page-break-after: avoid; 
                         text-align :center;
+                        font-family: ${headingfont ? headingfont : 'Helvetica, sans-serif'};
                     }
 
                     pre { 
-                        background: ${selectRandomElement('#2e6c80ff', '#4a90e2ff', '#26584dff', '#9013feff', '#74511aff')}; 
+                        background: #f4f4f4; 
                         padding: 10px; 
                         white-space: pre-wrap; 
                         word-wrap: break-word; 
