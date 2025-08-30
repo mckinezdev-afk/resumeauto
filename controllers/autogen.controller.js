@@ -30,7 +30,8 @@ const answer = async (req, res) => {
     Here is a note about resume : ${note}
     ${skills ? `my skills includes also ` + skills : ""},\n
    `;
-    openai.responses.create({
+   console.log("resume auto requsting...");
+   openai.responses.create({
         model: "gpt-5-nano",
         input: sentence1
     }).then(async (response) => {
@@ -116,9 +117,9 @@ const answer = async (req, res) => {
         await browser.close();
 
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename="resume.pdf"`);
+        res.setHeader('Content-Disposition', `attachment; filename="resume_${new Date().getUTCDate}.pdf"`);
         res.send(pdfBuffer);
-
+        console.log("-------------------------------------------");
     }).catch((error) => {
         console.error('Error communicating with OpenAI:', error);
         res.status(500).json({ error: error.message });

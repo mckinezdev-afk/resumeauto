@@ -11,7 +11,7 @@
       </div>
       <div class="field">
         <label for="title">Job Title</label>
-        <input id="title" v-model.trim="jobtitle" type="text"  placeholder="Frontend Engineer" :disabled="loading" />
+        <input id="title" v-model.trim="form.title" type="text" placeholder="Frontend Engineer" :disabled="loading" value="Senior Full Stack Developer"/>
         <small v-if="errors.title" class="err">{{ errors.title }}</small>
       </div>
       <div class="field">
@@ -58,7 +58,7 @@ const blank = () => ({
   address: "",
   education: "",
   experience: "",
-  title: "",
+  title: "Senior Full Stack Developer",
   description: "",
   note: "",
 });
