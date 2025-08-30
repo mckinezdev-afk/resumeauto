@@ -15,9 +15,10 @@ const answer = async (req, res) => {
      } = req.user
     const { title, description } = job
 
-    const sentence1 = `Forget anything you learned before. You are a professional resume writer.Act as a senior-level resume strategist and ATS optimization expert. Create a competitive, TS-optimized resume for a Senior Software Engineer role. Use realistic but fictional work history You
-     render the resume in markdown format, use appropriate markdown syntax for headings, lists, and emphasis.\n
+    const sentence1 = `Forget anything you learned before. You are a professional resume writer.Act as a senior-level resume strategist and ATS optimization expert. Create a competitive, ATS-optimized resume for a Senior Software Engineer role. Use realistic but fictional work history You
+     render the resume in html format(only body element), use appropriate html syntax for headings, lists, and emphasis.\n
     I want to make a resume to apply for the job titled "${title}".\n
+    My Job title must be Senior Software Engineer.\n
     The job description is as follows: ${description}\n
     ${name ? `name is ` + name : ""}, \n
     ${email ? `email is ` + email : ""}, \n
@@ -34,9 +35,10 @@ const answer = async (req, res) => {
         input: sentence1
     }).then(async (response) => {
         console.log('response for ' + req.user.name + " is generated!!!!")
-        const mdText = response.output_text;
-        const md = new markdownIt();
-        const htmlContent = md.render(mdText);
+        // const mdText = response.output_text;
+        // const md = new markdownIt();
+        // const htmlContent = md.render(mdText);
+        const htmlContent = response.output_text;
 
         const html = `
         <html>

@@ -14,7 +14,11 @@
         <input id="title" v-model.trim="jobtitle" type="text"  placeholder="Frontend Engineer" :disabled="loading" />
         <small v-if="errors.title" class="err">{{ errors.title }}</small>
       </div>
-
+      <div class="field">
+        <label for="title">Company Name</label>
+        <input id="title" v-model.trim="form.company" type="text"  placeholder="Company Name" :disabled="loading" />
+        <small v-if="errors.company" class="err">{{ errors.company }}</small>
+      </div>
       <div class="field">
         <label for="description">Job Description</label>
         <textarea id="description" v-model.trim="form.description" rows="6" placeholder="Paste the JD here..."
@@ -65,6 +69,7 @@ const errors = reactive({
   email: "",
   phone: "",
   title: "",
+  company: "",
   description: "",
   note: "",
 });
@@ -119,6 +124,7 @@ async function onSubmit() {
       name: selectedUser.value,
       job: { title: jobtitle.value, description: form.description },
       note: form.note,
+      company: form.company,
     };
     const res = await postJSON("/api/autogen/answer", payload);
     server.success = true;

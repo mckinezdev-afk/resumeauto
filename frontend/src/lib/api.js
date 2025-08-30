@@ -8,7 +8,7 @@ export async function postJSON(url, data) {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'resume.pdf';
+            a.download = `${data.company} - (${data.job.title}) resume.pdf`;
             document.body.appendChild(a);
             a.click();
             a.remove();
