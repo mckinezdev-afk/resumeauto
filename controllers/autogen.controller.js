@@ -26,9 +26,9 @@ const answer = async (req, res) => {
     ${address ? `address is ` + address : ""}.\n
     ${education ? `my education is ` + education : ""}.\n
     ${experience ? `my work experience is ` + experience : ""},\n
+    ${skills ? `my skills includes also ` + skills : ""},\n
     ${defaultnote ? `here is some more info about resume : ` + defaultnote : ""},\n
     Here is a note about resume : ${note}
-    ${skills ? `my skills includes also ` + skills : ""},\n
    `;
    console.log("resume auto requsting...");
    openai.responses.create({

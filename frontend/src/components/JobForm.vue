@@ -74,7 +74,7 @@ const errors = reactive({
   note: "",
 });
 const usernames = ref([]);
-const jobtitle = ref("Senior Software Engineer");
+const jobtitle = ref("");
 const selectedUser = ref(null);
 const loading = ref(false);
 const server = reactive({ success: false, message: "", error: "" });
@@ -98,7 +98,6 @@ onMounted(() => {
 
 
 function validate() {
-  errors.title = jobtitle.value ? "" : "Job title is required.";
   errors.description = form.description ? "" : "Job description is required.";
   errors.note = "";
   return (
@@ -107,7 +106,7 @@ function validate() {
 }
 
 function reset() {
-  jobtitle.value = "Senior Software Engineer";
+  jobtitle.value = "";
   form.description = "";
   server.success = false;
   server.message = "";
@@ -122,7 +121,7 @@ async function onSubmit() {
   try {
     const payload = {
       name: selectedUser.value,
-      job: { title: jobtitle.value, description: form.description },
+      job: { title: form.title, description: form.description },
       note: form.note,
       company: form.company,
     };
