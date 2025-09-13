@@ -3,20 +3,23 @@
     <div class="grid">
       <div class="field">
         <label for="name">Full Name</label>
-        <select v-model="selectedUser" :disabled="loading" class="custom-select">
-          <option value="" disabled>Select your name</option>
+        <select v-model="selectedUsers" :disabled="loading" class="custom-select" multiple>
           <option v-for="uname in usernames" :key="uname" :value="uname">{{ uname }}</option>
         </select>
         <small v-if="errors.name" class="err">{{ errors.name }}</small>
+        <small v-if="selectedUsers.length > 0" class="selected-info">
+          Selected: {{ selectedUsers.join(', ') }}
+        </small>
       </div>
       <div class="field">
         <label for="title">Job Title</label>
-        <input id="title" v-model.trim="form.title" type="text" placeholder="Frontend Engineer" :disabled="loading" value="Senior Full Stack Developer"/>
+        <input id="title" v-model.trim="form.title" type="text" placeholder="Frontend Engineer" :disabled="loading"
+          value="Senior Full Stack Developer" />
         <small v-if="errors.title" class="err">{{ errors.title }}</small>
       </div>
       <div class="field">
         <label for="title">Company Name</label>
-        <input id="title" v-model.trim="form.company" type="text"  placeholder="Company Name" :disabled="loading" />
+        <input id="title" v-model.trim="form.company" type="text" placeholder="Company Name" :disabled="loading" />
         <small v-if="errors.company" class="err">{{ errors.company }}</small>
       </div>
       <div class="field">
@@ -75,7 +78,7 @@ const errors = reactive({
 });
 const usernames = ref([]);
 const jobtitle = ref("");
-const selectedUser = ref(null);
+const selectedUsers = ref([]);
 const loading = ref(false);
 const server = reactive({ success: false, message: "", error: "" });
 
@@ -98,6 +101,7 @@ onMounted(() => {
 
 
 function validate() {
+  errors.name = selectedUsers.value.length > 0 ? "" : "Please select at least one user.";
   errors.description = form.description ? "" : "Job description is required.";
   errors.note = "";
   return (
@@ -115,25 +119,28 @@ function reset() {
 
 async function onSubmit() {
   if (!validate()) return;
-  loading.value = true;
+  // loading.value = true;
   server.success = false;
   server.error = "";
-  try {
+  for (var name of selectedUsers.value) {
     const payload = {
-      name: selectedUser.value,
+      name,
       job: { title: form.title, description: form.description },
       note: form.note,
       company: form.company,
     };
-    const res = await postJSON("/api/autogen/answer", payload);
-    server.success = true;
-    server.message = res?.message || "Submitted successfully.";
-    reset();
-  } catch (e) {
-    server.error = e?.message || "Submission failed.";
-  } finally {
-    loading.value = false;
+    try {
+      const res = await postJSON("/api/autogen/answer", payload);
+      server.success = true;
+      server.message = res?.message || "Submitted successfully.";
+      reset();
+    } catch (e) {
+      server.error = e?.message || "Submission failed.";
+    } finally {
+      loading.value = false;
+    }
   }
+
 }
 </script>
 <style scoped>
@@ -153,13 +160,29 @@ label {
   font-weight: 600;
   margin-bottom: 0.35rem;
 }
+
 .custom-select {
   padding: 10px;
   border-radius: 6px;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   font-size: 16px;
-  appearance: none; /* removes default arrow in some browsers */
+  appearance: none;
+  /* removes default arrow in some browsers */
+  min-height: 100px;
+  /* make it taller for multiselect */
+}
+
+.custom-select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.selected-info {
+  color: #059669;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
 }
 
 input,
