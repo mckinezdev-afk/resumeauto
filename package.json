@@ -32,6 +32,7 @@
     "cookie": "^0.7.2",
     "cookie-signature": "^1.2.2",
     "core-util-is": "^1.0.3",
+    "cors": "^2.8.5",
     "cosmiconfig": "^9.0.0",
     "data-uri-to-buffer": "^6.0.2",
     "debug": "^4.4.1",
@@ -157,8 +158,8 @@
     "source-map": "^0.6.1",
     "statuses": "^2.0.2",
     "streamx": "^2.22.1",
-    "string-width": "^4.2.3",
     "string_decoder": "^1.1.1",
+    "string-width": "^4.2.3",
     "strip-ansi": "^6.0.1",
     "tar-fs": "^3.1.0",
     "tar-stream": "^3.1.7",
@@ -183,7 +184,6 @@
     "yauzl": "^2.10.0",
     "zod": "^3.25.76"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"

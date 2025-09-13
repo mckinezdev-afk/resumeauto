@@ -15,28 +15,31 @@ const answer = async (req, res) => {
      } = req.user
     const { title, description } = job
 
-    const sentence1 = `
-     render the resume in markdown format, use appropriate markdown syntax for headings, lists, and emphasis.\n
+    const sentence1 = `Forget anything you learned before. You are a professional resume writer.Act as a senior-level resume strategist and ATS optimization expert. Create a competitive, ATS-optimized resume for a Senior Software Engineer role. Use realistic but fictional work history You
+     render the resume in html format(only body element), use appropriate html syntax for headings, lists, and emphasis.\n
     I want to make a resume to apply for the job titled "${title}".\n
+    My Job title must be Senior Software Engineer.\n
     The job description is as follows: ${description}\n
     ${name ? `name is ` + name : ""}, \n
     ${email ? `email is ` + email : ""}, \n
     ${phone ? `phone is ` + phone : ""}, \n
     ${address ? `address is ` + address : ""}.\n
-    ${education ? `education is ` + education : ""}.\n
-    ${experience ? `experience is ` + experience : ""},\n
-    ${skills ? `my must skills are ` + skills : ""},\n
+    ${education ? `my education is ` + education : ""}.\n
+    ${experience ? `my work experience is ` + experience : ""},\n
+    ${skills ? `my skills includes also ` + skills : ""},\n
     ${defaultnote ? `here is some more info about resume : ` + defaultnote : ""},\n
     Here is a note about resume : ${note}
    `;
-    openai.responses.create({
+   console.log("resume auto requsting...");
+   openai.responses.create({
         model: "gpt-5-nano",
         input: sentence1
     }).then(async (response) => {
         console.log('response for ' + req.user.name + " is generated!!!!")
-        const mdText = response.output_text;
-        const md = new markdownIt();
-        const htmlContent = md.render(mdText);
+        // const mdText = response.output_text;
+        // const md = new markdownIt();
+        // const htmlContent = md.render(mdText);
+        const htmlContent = response.output_text;
 
         const html = `
         <html>
@@ -114,9 +117,9 @@ const answer = async (req, res) => {
         await browser.close();
 
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename="resume.pdf"`);
+        res.setHeader('Content-Disposition', `attachment; filename="resume_${new Date().getUTCDate}.pdf"`);
         res.send(pdfBuffer);
-
+        console.log("-------------------------------------------");
     }).catch((error) => {
         console.error('Error communicating with OpenAI:', error);
         res.status(500).json({ error: error.message });
