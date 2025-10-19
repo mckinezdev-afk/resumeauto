@@ -156,6 +156,7 @@
     "socks": "^2.8.7",
     "socks-proxy-agent": "^8.0.5",
     "source-map": "^0.6.1",
+    "sqlite3": "^5.1.7",
     "statuses": "^2.0.2",
     "streamx": "^2.22.1",
     "string_decoder": "^1.1.1",

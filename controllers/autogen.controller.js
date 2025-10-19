@@ -9,32 +9,33 @@ const openai = new OpenAI({
 
 const answer = async (req, res) => {
     console.log("i will give you an answer")
-    const {  note } = req.body;
-    const { name, email, phone, address, education, experience, skills, defaultnote,
-        h1color, h2color, h3color, h4color, textcolor, bgcolor,textfont, headingfont, fontsize, lineheight
-     } = req.user
+    const { job, note } = req.body;
+    const { name, email, phone, address, education, resume, skills, defaultnote,
+        h1color, h2color, h3color, h4color, textcolor, bgcolor, textfont, headingfont, fontsize, lineheight
+    } = req.user
+    const { title, description } = job;
 
-    const sentence1 = 
-    // `
-    // Forget anything you learned before. You are a professional resume writer.Act as a senior-level resume strategist and ATS optimization expert. Create a competitive, ATS-optimized resume for a Senior Software Engineer role. Use realistic but fictional work history You
-    //  render the resume in html format(only body element), use appropriate html syntax for headings, lists, and emphasis.\n
-    // I want to make a resume to apply for the job titled "${title}".\n
-    // My Job title must be Senior Software Engineer.\n
-    // The job description is as follows: ${description}\n
-    // ${name ? `name is ` + name : ""}, \n
-    // ${email ? `email is ` + email : ""}, \n
-    // ${phone ? `phone is ` + phone : ""}, \n
-    // ${address ? `address is ` + address : ""}.\n
-    // ${education ? `my education is ` + education : ""}.\n
-    // ${experience ? `my work experience is ` + experience : ""},\n
-    // ${skills ? `my skills includes also ` + skills : ""},\n
-    // ${defaultnote ? `here is some more info about resume : ` + defaultnote : ""},\n
-    `
+    const sentence1 =`
+    Forget anything you learned before. You are a professional resume writer.Act as a senior-level resume strategist and ATS optimization expert. Create a competitive, ATS-optimized resume for a Senior Software Engineer role. Use realistic but fictional work history You
+     render the resume in html format(only body element), use appropriate html syntax for headings, lists, and emphasis.\n
+    I want to make a resume to apply for the job titled "${title}".\n
+    My Job title must be Senior Software Engineer.\n
+    The job description is as follows: 
+
+    This is my original resume.
+    ${resume ? `my resume is ` + resume : ""},\n
+    This is job description.
+    ${description}\n
+    I am going to tailor my resume for this specific job description.
+    -tailor resume for ATS-optimization
+    -You can update some words, my skills but do not update thing that be not matched real company's experience.
+    -It's important to make good matched resume(90%) with job requirement but also it's important to look like real engineer's resume not tailor resume.
+    
     Here is a note about resume : ${note}
    `;
 
-   console.log("resume auto requsting...");
-   openai.responses.create({
+    console.log("resume auto requsting...");
+    openai.responses.create({
         model: "gpt-5-nano",
         input: sentence1
     }).then(async (response) => {
@@ -45,7 +46,6 @@ const answer = async (req, res) => {
         const htmlContent = response.output_text;
 
 
-        console.log(htmlContent)
         const html = `
         <html>
             <head>
