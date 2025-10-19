@@ -101,12 +101,13 @@ onMounted(() => {
 
 
 function validate() {
-  errors.name = selectedUsers.value.length > 0 ? "" : "Please select at least one user.";
-  errors.description = form.description ? "" : "Job description is required.";
-  errors.note = "";
-  return (
-    !errors.name && !errors.email && !errors.phone && !errors.title && !errors.description
-  );
+  //errors.name = selectedUsers.value.length > 0 ? "" : "Please select at least one user.";
+  //errors.description = form.description ? "" : "Job description is required.";
+  //errors.note = "";
+  //return (
+  //  !errors.name && !errors.email && !errors.phone && !errors.title && !errors.description
+  //);
+  return true
 }
 
 function reset() {
@@ -118,10 +119,11 @@ function reset() {
 }
 
 async function onSubmit() {
-  if (!validate()) return;
+  // if (!validate()) return;
   // loading.value = true;
   server.success = false;
   server.error = "";
+  console.log('hello')
   for (var name of selectedUsers.value) {
     const payload = {
       name,
